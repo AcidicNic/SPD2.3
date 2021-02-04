@@ -1,28 +1,53 @@
 # Written by Kamran Bigdely
 # Example for Compose Methods: Extract Method.
-import math 
+"""
+Takes in 5 student's grades, prints the mean and standard deviation.
+"""
 
-def print_stat():
+import math
+
+def get_grade_inputs(n_student=5):
+    """Returns a list of grades with the length of 'n_student'."""
     grade_list = []
-    # Get the inputs from the user
-    n_student = 5
-    for _ in range(0, n_student):
-        grade_list.append(int(input('Enter a number: ')))
+    for i in range(0, n_student):
+        grade_list.append(int(input(f"Enter grade for student {i+1}: ")))
+    print()
+    return grade_list
 
-    # Calculate the mean and standard deviation of the grades
-    sum = 0 # Do you think 'sum' is a good var name? Run pylint to figure out!
-    for grade in grade_list:
-        sum = sum + grade
-    mean = sum / len(grade_list)
-    sd = 0 # standard deviation
+def get_mean(grade_list):
+    """Returns the mean of 'grade_list'."""
+    return sum(grade_list) / len(grade_list)
+
+def get_std_dev(grade_list, grade_mean=None):
+    """Returns the standard deviation of 'grade_list'."""
+    if grade_mean is None:
+        grade_mean = get_mean(grade_list)
     sum_of_sqrs = 0
-    for grade in grade_list:
-        sum_of_sqrs += (grade - mean) ** 2
-    sd = math.sqrt(sum_of_sqrs / len(grade_list))
-    # print out the mean and standard deviation in a nice format.
-    print('****** Grade Statistics ******')
-    print("The grades's mean is:", mean)
-    print('The population standard deviation of grades is: ', round(sd, 3))
-    print('****** END ******')
 
-print_stat()
+    for grade in grade_list:
+        sum_of_sqrs += (grade - grade_mean) ** 2
+
+    return math.sqrt(sum_of_sqrs / len(grade_list))
+
+def print_title(title):
+    """Prints 'title' with 6 stars on either end."""
+    print(f"****** {title} ******")
+
+def print_summary(grade_mean, std_dev):
+    """Prints 'grade_mean' and 'std_dev' with title banners."""
+    print_title("Grade Statistics")
+    print(f"The grades's mean is: {grade_mean:.1f}")
+    print(f"The population standard deviation of grades is: {std_dev:.3f}")
+    print_title("END")
+
+def print_results():
+    """Gets and prints grade list, std_dev, and mean."""
+    grade_list = get_grade_inputs()
+    grade_mean = get_mean(grade_list)
+    std_dev = get_std_dev(grade_list, grade_mean)
+
+    print_summary(grade_mean, std_dev)
+
+
+if __name__ == '__main__':
+    print_results()
