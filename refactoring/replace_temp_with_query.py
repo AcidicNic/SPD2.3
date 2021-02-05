@@ -1,51 +1,92 @@
 # By Kamran Bigdely Nov. 2020
 # Replace temp variable with query
-# TODO: Use 'extract method' refactoring technique to improve this code. If required, use
-#       'replace temp variable with query' technique to make it easier to extract methods.
-class Employer:    
+
+"""
+Finds graduating students and sends students' contact info possible employers.
+"""
+
+class Employer:
+    """Represents an employer."""
     def __init__(self, name):
         self.name = name
+
     def send(self, students):
-        print("Students' contact info were sent to", self.name + '.')
+        """Sends 'students' contact into to the employer."""
+        print(f"Students' contact info were sent to {self.name}.")
 
 class Student:
+    """Represents a student."""
     def __init__(self, gpa, name):
         self.gpa = gpa
         self.name = name
+
     def get_gpa(self):
+        """Returns the student's gpa."""
         return self.gpa
+
     def send_congrat_email(self):
-        print("Congrats", self.name + ". You graduated successfully!")
+        """Sends graduation email to the student."""
+        print(f"Congrats {self.name}. You graduated successfully!")
 
 class School:
+    """Represents a school."""
     def __init__(self, students) -> None:
         self.students = students
-    def process_graduation(self):
-        # Find the students in the school who have successfully graduated.
-        min_gpa = 2.5 # minimum acceptable GPA
+
+    def get_passing_students(self, min_gpa=2.5):
+        """Returns a list of students with a gpa greater than 'min_gpa'."""
         passed_students = []
-        for s in self.students:
-            if s.get_gpa() > min_gpa:
-                passed_students.append(s)
 
-        # print student's name who graduated.
-        print('*** Student who graduated *** ')
-        for s in passed_students:
-            print(s.name)
-        print('****************************')
-        # Send congrat emails to them.
-        for s in passed_students:
-            s.send_congrat_email()
-        # Find the top 10% of them and send their contact to the top employers
+        for student in self.students:
+            if student.get_gpa() > min_gpa:
+                passed_students.append(student)
+        return passed_students
+
+    def email_passing_students(self):
+        """Emails all graduating students."""
+        for student in self.get_passing_students():
+            student.send_congrat_email()
+
+    def print_pretty_student_list(self, title, students):
+        """Prints a list of students."""
+        print(f"*** {title} ***")
+
+        for student in students:
+            print(student.name)
+
+        print('*' * (len(title) + 8))
+
+    def get_top_10_percent_students(self):
+        """Returns list of top 10% of passing students sorted by gpa."""
+        passed_students = self.get_passing_students()
         passed_students.sort(key=lambda s: s.get_gpa())
-        percentile = 0.9
-        index = int(percentile * len(passed_students))
-        top_10_percent = passed_students[index:]
-        top_employers = [Employer('Microsoft'), Employer('Free Software Foundation'), Employer('Google')]
-        for e in top_employers:
-            e.send(top_10_percent)
+        index = int(0.9 * len(passed_students))
+        return passed_students[index:]
 
-students = [Student(2.1, 'donald'), Student(2.3, 'william'), Student(2.7, 'toro'), 
-            Student(3.9, 'lili'), Student(3.2,'kami'), Student(3,'sarah')]
-school  = School(students)
-school.process_graduation()
+    def email_top_employers(self):
+        """Sends top 10 percent students contact info to the top employers."""
+        top_employers = [
+            Employer('Microsoft'),
+            Employer('Free Software Foundation'),
+            Employer('Google')
+        ]
+        for employer in top_employers:
+            employer.send(self.get_top_10_percent_students())
+
+    def process_graduation(self):
+        """Find the students in the school who have successfully graduated."""
+        self.print_pretty_student_list("Graduated Students",
+                                        self.get_passing_students())
+
+        self.email_passing_students()
+
+        self.email_top_employers()
+
+
+
+if __name__ == '__main__':
+    TEST_STUDENTS = [Student(2.1, 'donald'), Student(2.3, 'william'),
+                    Student(2.7, 'toro'),Student(3.9, 'lili'),
+                    Student(3.2,'kami'), Student(3,'sarah')]
+    TEST_SCHOOL  = School(TEST_STUDENTS)
+    TEST_SCHOOL.process_graduation()
