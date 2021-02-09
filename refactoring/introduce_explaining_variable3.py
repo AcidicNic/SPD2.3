@@ -9,9 +9,12 @@ def is_cookeding_criteria_satisfied(time, temperature, pressure, desired_state):
     # I'm no chef, idk what this number is so idk what to call it :(
     cooked_num = time * temperature * pressure * COOKED_CONSTANT
 
-    if desired_state == 'well-done' and cooked_num >= WELL_DONE:
+    is_well_done = cooked_num >= WELL_DONE
+    is_medium = cooked_num >= MEDIUM
+
+    if desired_state == 'well-done' and is_well_done:
         return True
-    if desired_state == 'medium' and cooked_num >= MEDIUM:
+    if desired_state == 'medium' and is_medium:
         return True
 
     return False
