@@ -36,7 +36,7 @@ def calculate_kinetic_energy(mass, distance, time):
         else:
             print ("unit is Unknown")
             return
-    
+
     kinetic_energy = 0.5 * mass_kg.value * speed ** 2
     return kinetic_energy
 
