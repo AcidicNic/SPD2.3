@@ -6,6 +6,12 @@
 # python script to scrape profiles info (such as height, age, etc) and images (for image processing)
 # to figure out automatically who is attractive to you.  Here is a part of the script:
 from math import pi
+
+MIN_IDEAL_EYE_SIZE = 0.45
+MIN_IDEAL_EYE_PROPORTION = 0.69
+MIN_IDEAL_EYE_ROUNDNESS = 0.59
+
+
 # assuming you have extracted the following info from the profile's image.
 eye_size = 0.47    # [cm^2]
 eye_width = 24.2   # [mm]
@@ -17,5 +23,7 @@ iris_height = 19.7 # [mm]
 iris_to_eye_proportion = (pi * iris_width / 2 * iris_height / 2) / eye_size
 eye_roundness = eye_height / eye_width
 
-if eye_size > 0.45 and iris_to_eye_proportion >= 0.69 and eye_roundness >= 0.59:
+if eye_size > MIN_IDEAL_EYE_SIZE and \
+        iris_to_eye_proportion >= MIN_IDEAL_EYE_PROPORTION and \
+        eye_roundness >= MIN_IDEAL_EYE_ROUNDNESS:
     print("I’m sorry I wasn’t part of your past, can I make it up by being in your future?")
