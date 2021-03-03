@@ -3,6 +3,9 @@
 # Refactored.
 import math
 
+class InvalidGradeList(Exception):
+    pass
+
 def display_grade_stat():
     """Gathers stats and print them out."""
     grade_list = read_input()
@@ -21,15 +24,18 @@ def read_input():
 
 def calculate_stat(grade_list):
     """Calculate the mean and standard deviation of the grades."""
-    total = 0
-    for grade in grade_list:
-        total = total + grade
-    mean = total / len(grade_list)
-    sum_of_sqrs = 0
-    for grade in grade_list:
-        sum_of_sqrs += (grade - mean) ** 2
-    sd = math.sqrt(sum_of_sqrs / len(grade_list)) # standard deviation
-    return mean, sd
+    try:
+        total = 0
+        for grade in grade_list:
+            total = total + grade
+        mean = total / len(grade_list)
+        sum_of_sqrs = 0
+        for grade in grade_list:
+            sum_of_sqrs += (grade - mean) ** 2
+        sd = math.sqrt(sum_of_sqrs / len(grade_list)) # standard deviation
+        return mean, sd
+    except Exception as e:
+        raise InvalidGradeList("grade_list must be a list of")
 
 def print_stat(mean, sd):
     """print out the mean and standard deviation in a nice format."""
@@ -38,4 +44,4 @@ def print_stat(mean, sd):
     print('The population standard deviation of grades is: ', round(sd, 3))
     print('****** END ******')
 
-display_grade_stat()
+# display_grade_stat()

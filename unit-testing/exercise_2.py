@@ -12,7 +12,7 @@ def get_age_carbon_14_dating(carbon_14_ratio):
     sample conpared to the amount in living tissue (unitless)."""
     try:
         if 0 < float(carbon_14_ratio) and float(carbon_14_ratio) < 1:
-            return round(log(carbon_14_ratio) / DECAY_CONSTANT * T_HALF, 2)
+            return log(carbon_14_ratio) / DECAY_CONSTANT * T_HALF
         raise InvalidCarbon14Ratio(
             f"carbon_14_ratio should be a float between 0 and 1, not {carbon_14_ratio}")
     except:

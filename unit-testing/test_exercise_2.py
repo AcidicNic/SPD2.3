@@ -3,7 +3,7 @@ import math
 from exercise_2 import get_age_carbon_14_dating, InvalidCarbon14Ratio
 
 def test_get_age_carbon_14_dating_normal():
-    assert get_age_carbon_14_dating(0.35) == 8680.35
+    assert math.isclose(get_age_carbon_14_dating(0.35), 8680.35, abs_tol = 0.01)
 
 def test_get_age_carbon_14_dating_int():
     with pytest.raises(InvalidCarbon14Ratio):
