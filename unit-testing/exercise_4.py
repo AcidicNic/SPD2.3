@@ -2,7 +2,7 @@
 # Replace nested conditional with gaurd clauses
 
 def extract_position(line):
-    if not line:
+    if not line or not isinstance(line, str):
         pos = None
     else:
         if 'debug' in line or 'error' in line:
