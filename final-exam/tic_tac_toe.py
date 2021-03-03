@@ -2,7 +2,8 @@
 ***************
 * Tic Tac Toe *
 ***************
-Create a TicTacToe object to start the game
+Creates a TicTacToe object and uses the start() method to being the game.
+You play against a computer! Have fun.
 """
 
 from random import randint, choice
